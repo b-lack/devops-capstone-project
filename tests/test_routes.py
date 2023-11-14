@@ -161,3 +161,16 @@ class TestAccountService(TestCase):
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_list_accounts(self):
+        """It should create 3 Accounts"""
+
+        self._create_accounts(3)
+
+        response = self.client.get(BASE_URL)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        accounts = response.get_json()
+        self.assertEqual(len(accounts), 3)
+    
