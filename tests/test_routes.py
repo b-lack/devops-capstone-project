@@ -134,7 +134,6 @@ class TestAccountService(TestCase):
 
     def test_read_an_account(self):
         """It sould read an Account"""
-        
         # Create new Account
         account = AccountFactory()
         response = self.client.post(BASE_URL, json=account.serialize())
@@ -147,10 +146,7 @@ class TestAccountService(TestCase):
         account.id = new_account["id"]
 
         # Get Account by Id
-        response = self.client.get(
-            f"{BASE_URL}/{account.id}", 
-            content_type="application/json"
-        )
+        response = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = response.get_json()
@@ -159,10 +155,7 @@ class TestAccountService(TestCase):
     def test_account_not_found(self):
         """It should get 404_NOT_FOUND from unknown account id"""
 
-        response = self.client.get(
-            f"{BASE_URL}/0", 
-            content_type="application/json"
-        )
+        response = self.client.get(f"{BASE_URL}/0", content_type="application/json")
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -195,15 +188,13 @@ class TestAccountService(TestCase):
 
     def test_delete_account(self):
         """It should Delete an Account"""
-
-        #create account
+        # Create account
         account = self._create_accounts(1)[0]
         resp = self.client.delete(f"{BASE_URL}/{account.id}")
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
-
         resp = self.client.delete(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
